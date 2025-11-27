@@ -197,9 +197,11 @@ npm run challenges
 - **[PERFORMANCE_RESULTS.md](./PERFORMANCE_RESULTS.md)** - Performance testing results, benchmarks
 
 #### Technology & Integration
+- **[BACKEND_COMPLETE_OVERVIEW.md](./BACKEND_COMPLETE_OVERVIEW.md)** - 🆕 Complete backend overview, assessment, technology stack
+- **[BACKEND_VISUAL_GUIDE.md](./BACKEND_VISUAL_GUIDE.md)** - 🆕 Visual diagrams, architecture, flow charts
 - **[TECHNOLOGY_EXPLANATION.md](./TECHNOLOGY_EXPLANATION.md)** - Technology stack тайлбар, яагаад сонгосон
 - **[FRONTEND_INTEGRATION_GUIDE.md](./FRONTEND_INTEGRATION_GUIDE.md)** - Frontend интеграцчлах зааварчилгаа
-- **[MATCHMAKING_INTEGRATION_GUIDE.md](./MATCHMAKING_INTEGRATION_GUIDE.md)** - Matchmaking & 2-Player Game integration (NEW)
+- **[MATCHMAKING_INTEGRATION_GUIDE.md](./MATCHMAKING_INTEGRATION_GUIDE.md)** - Matchmaking & 2-Player Game integration
 - **[INTEGRATION_CHECKLIST.md](./INTEGRATION_CHECKLIST.md)** - Integration checklist, step-by-step
 - **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** - Postman collection ашиглах зааварчилгаа
 - **[SWAGGER_GUIDE.md](./SWAGGER_GUIDE.md)** - Swagger UI ашиглах зааварчилгаа

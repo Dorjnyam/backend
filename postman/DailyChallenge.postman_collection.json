@@ -1,0 +1,637 @@
+{
+	"info": {
+		"_postman_id": "physical-asia-game-api",
+		"name": "Physical Asia Game - Complete API",
+		"description": "Complete API collection for Physical Asia Game Backend - All endpoints included",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "register"]
+						}
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.data.token);",
+									"    pm.environment.set(\"player_id\", jsonData.data.player.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.data.token);",
+									"    pm.environment.set(\"player_id\", jsonData.data.player.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "Get Player Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/player/{{player_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "player", "{{player_id}}"]
+						},
+						"description": "Get player profile by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Player Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/player/{{player_id}}/stats",
+							"host": ["{{base_url}}"],
+							"path": ["api", "player", "{{player_id}}", "stats"]
+						},
+						"description": "Get player statistics"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avatar\": {\n    \"imageUrl\": \"https://example.com/avatar.png\",\n    \"frameId\": \"frame-1\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/player/{{player_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "player", "{{player_id}}"]
+						},
+						"description": "Update player profile (avatar)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "Create Game Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"gameType\": \"running\",\n  \"mode\": \"1v1\",\n  \"seasonId\": \"507f1f77bcf86cd799439011\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/session/create",
+							"host": ["{{base_url}}"],
+							"path": ["api", "game", "session", "create"]
+						},
+						"description": "Create a new game session"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/game/session/:sessionId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "game", "session", ":sessionId"],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "",
+									"description": "Game session ID"
+								}
+							]
+						},
+						"description": "Get game session details"
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Game Result",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 1500,\n  \"rank\": 1,\n  \"stats\": {\n    \"accuracy\": 95,\n    \"speed\": 120,\n    \"distance\": 500\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/session/:sessionId/result",
+							"host": ["{{base_url}}"],
+							"path": ["api", "game", "session", ":sessionId", "result"],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "",
+									"description": "Game session ID"
+								}
+							]
+						},
+						"description": "Submit game result and receive rewards"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Daily Challenge",
+			"item": [
+				{
+					"name": "Get Daily Challenges",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenge/daily",
+							"host": ["{{base_url}}"],
+							"path": ["api", "challenge", "daily"]
+						},
+						"description": "Get today's daily challenges (randomly selected from pool)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Player Challenge Progress",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenge/progress",
+							"host": ["{{base_url}}"],
+							"path": ["api", "challenge", "progress"]
+						},
+						"description": "Get player's progress for today's challenges"
+					},
+					"response": []
+				},
+				{
+					"name": "Claim Challenge Reward",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/challenge/:id/claim",
+							"host": ["{{base_url}}"],
+							"path": ["api", "challenge", ":id", "claim"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "play-3-games",
+									"description": "Challenge ID (e.g., play-3-games, win-1-game)"
+								}
+							]
+						},
+						"description": "Claim reward for completed challenge"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leaderboard",
+			"item": [
+				{
+					"name": "Get Global Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/global?limit=100&redis=false",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "global"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Number of players to return"
+								},
+								{
+									"key": "redis",
+									"value": "false",
+									"description": "Use Redis Sorted Sets (faster)"
+								}
+							]
+						},
+						"description": "Get global leaderboard"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Season Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/season/:seasonId?limit=100",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "season", ":seasonId"],
+							"variable": [
+								{
+									"key": "seasonId",
+									"value": "",
+									"description": "Season ID"
+								}
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						},
+						"description": "Get season leaderboard"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Game Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/game/:type?limit=100",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "game", ":type"],
+							"variable": [
+								{
+									"key": "type",
+									"value": "running",
+									"description": "Game type: running, jumping, throwing, balance, endurance"
+								}
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						},
+						"description": "Get game-specific leaderboard"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Player Rank",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/player/{{player_id}}/rank?redis=false",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "player", "{{player_id}}", "rank"],
+							"query": [
+								{
+									"key": "redis",
+									"value": "false",
+									"description": "Use Redis (faster)"
+								}
+							]
+						},
+						"description": "Get player's global rank"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Nearby Players",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/leaderboard/player/{{player_id}}/nearby",
+							"host": ["{{base_url}}"],
+							"path": ["api", "leaderboard", "player", "{{player_id}}", "nearby"]
+						},
+						"description": "Get players with similar points (nearby in leaderboard)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tournament",
+			"item": [
+				{
+					"name": "List Tournaments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournament/list",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tournament", "list"]
+						},
+						"description": "List all tournaments"
+					},
+					"response": []
+				},
+				{
+					"name": "Register for Tournament",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournament/:tournamentId/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tournament", ":tournamentId", "register"],
+							"variable": [
+								{
+									"key": "tournamentId",
+									"value": "",
+									"description": "Tournament ID"
+								}
+							]
+						},
+						"description": "Register for a tournament"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tournament Bracket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournament/:tournamentId/bracket",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tournament", ":tournamentId", "bracket"],
+							"variable": [
+								{
+									"key": "tournamentId",
+									"value": "",
+									"description": "Tournament ID"
+								}
+							]
+						},
+						"description": "Get tournament bracket"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Tournament Bracket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tournament/:tournamentId/generate-bracket",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tournament", ":tournamentId", "generate-bracket"],
+							"variable": [
+								{
+									"key": "tournamentId",
+									"value": "",
+									"description": "Tournament ID"
+								}
+							]
+						},
+						"description": "Generate tournament bracket (admin only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						},
+						"description": "Check server health status"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "player_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "sessionId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tournamentId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "seasonId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+

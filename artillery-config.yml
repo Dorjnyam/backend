@@ -1,0 +1,59 @@
+config:
+  target: 'http://localhost:5001'
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 60
+      arrivalRate: 20
+      name: "Sustained load"
+    - duration: 30
+      arrivalRate: 50
+      name: "Spike test"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Health Check"
+    weight: 30
+    flow:
+      - get:
+          url: "/health"
+
+  - name: "Register User"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            username: "test{{ $randomString() }}"
+            email: "test{{ $randomString() }}@example.com"
+            password: "password123"
+
+  - name: "Login"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test@example.com"
+            password: "password123"
+          capture:
+            - json: "$.data.token"
+              as: "token"
+
+  - name: "Get Daily Challenges"
+    weight: 15
+    flow:
+      - get:
+          url: "/api/challenge/daily"
+          headers:
+            Authorization: "Bearer {{ token }}"
+
+  - name: "Get Leaderboard"
+    weight: 15
+    flow:
+      - get:
+          url: "/api/leaderboard/global"
+

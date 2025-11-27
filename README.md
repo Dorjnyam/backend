@@ -199,6 +199,8 @@ npm run challenges
 #### Technology & Integration
 - **[TECHNOLOGY_EXPLANATION.md](./TECHNOLOGY_EXPLANATION.md)** - Technology stack тайлбар, яагаад сонгосон
 - **[FRONTEND_INTEGRATION_GUIDE.md](./FRONTEND_INTEGRATION_GUIDE.md)** - Frontend интеграцчлах зааварчилгаа
+- **[MATCHMAKING_INTEGRATION_GUIDE.md](./MATCHMAKING_INTEGRATION_GUIDE.md)** - Matchmaking & 2-Player Game integration (NEW)
+- **[INTEGRATION_CHECKLIST.md](./INTEGRATION_CHECKLIST.md)** - Integration checklist, step-by-step
 - **[POSTMAN_GUIDE.md](./POSTMAN_GUIDE.md)** - Postman collection ашиглах зааварчилгаа
 - **[SWAGGER_GUIDE.md](./SWAGGER_GUIDE.md)** - Swagger UI ашиглах зааварчилгаа
 
@@ -220,18 +222,21 @@ npm run test:coverage
 
 #### Performance Testing
 ```bash
-# Apache Bench
-ab -n 1000 -c 10 http://localhost:5000/health
+# Artillery (recommended - already installed)
+npm run test:load
 
-# Artillery
-npm install -g artillery
-artillery run artillery-config.yml
+# k6 (optional - requires separate installation)
+# k6 run load-test.js
+# See PERFORMANCE_TOOLS_SETUP.md for installation
 
-# k6
-k6 run load-test.js
+# Apache Bench (optional)
+# ab -n 1000 -c 10 http://localhost:5000/health
 ```
 
-Дэлгэрэнгүй: [PERFORMANCE_TESTING_GUIDE.md](./PERFORMANCE_TESTING_GUIDE.md), [PERFORMANCE_RESULTS.md](./PERFORMANCE_RESULTS.md)
+Дэлгэрэнгүй: 
+- [PERFORMANCE_TESTING_GUIDE.md](./PERFORMANCE_TESTING_GUIDE.md) - Testing зааварчилгаа
+- [PERFORMANCE_TOOLS_SETUP.md](./PERFORMANCE_TOOLS_SETUP.md) - Tools суулгах
+- [PERFORMANCE_RESULTS.md](./PERFORMANCE_RESULTS.md) - Results, benchmarks
 
 ### 🔒 Security
 

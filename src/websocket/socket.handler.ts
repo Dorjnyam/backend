@@ -69,7 +69,23 @@ export function handleSocketConnection(io: Server) {
       gameType: string;
       mode: string;
     }) => {
-      const queueKey = `queue:${data.gameType}:${data.mode}`;
+      // Validate and map gameType
+      const validGameTypes = ['running', 'jumping', 'throwing', 'balance', 'endurance'];
+      const gameType = validGameTypes.includes(data.gameType) 
+        ? data.gameType 
+        : 'running'; // Default to 'running' if invalid
+
+      // Map mode: 'ranked'/'casual' -> '1v1', others keep as is
+      const validModes = ['1v1', 'battle-royale', 'tournament'];
+      let mode = data.mode;
+      if (mode === 'ranked' || mode === 'casual') {
+        mode = '1v1';
+      }
+      if (!validModes.includes(mode)) {
+        mode = '1v1'; // Default to '1v1' if invalid
+      }
+
+      const queueKey = `queue:${gameType}:${mode}`;
 
       await redis.rpush(queueKey, JSON.stringify({
         playerId: data.playerId,
@@ -90,19 +106,28 @@ export function handleSocketConnection(io: Server) {
         const p1 = await Player.findById(player1.playerId);
         const p2 = await Player.findById(player2.playerId);
 
+        if (!p1 || !p2) {
+          console.error('Players not found');
+          return;
+        }
+
+        // Get avatar with fallback
+        const p1Avatar = p1.avatar?.imageUrl || 'https://via.placeholder.com/150';
+        const p2Avatar = p2.avatar?.imageUrl || 'https://via.placeholder.com/150';
+
         const session = await GameSession.create({
-          gameType: data.gameType,
-          mode: data.mode,
+          gameType: gameType as any,
+          mode: mode as any,
           players: [
             {
-              playerId: p1!._id,
-              username: p1!.username,
-              avatar: p1!.avatar.imageUrl
+              playerId: p1._id,
+              username: p1.username,
+              avatar: p1Avatar
             },
             {
-              playerId: p2!._id,
-              username: p2!.username,
-              avatar: p2!.avatar.imageUrl
+              playerId: p2._id,
+              username: p2.username,
+              avatar: p2Avatar
             }
           ],
           seasonId: '507f1f77bcf86cd799439011' as any,

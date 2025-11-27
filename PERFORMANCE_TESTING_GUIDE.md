@@ -50,6 +50,10 @@ ab -n 500 -c 5 -p post_data.json -T application/json http://localhost:5000/api/a
 
 #### Суулгах
 ```bash
+# Local installation (recommended, no admin rights needed)
+npm install artillery --save-dev
+
+# Global installation (requires admin rights on Windows)
 npm install -g artillery
 ```
 
@@ -112,6 +116,13 @@ scenarios:
 
 #### Ажиллуулах
 ```bash
+# Using npm script (recommended)
+npm run test:load
+
+# Or directly with npx
+npx artillery run artillery-config.yml
+
+# Or if installed globally
 artillery run artillery-config.yml
 ```
 
@@ -125,14 +136,21 @@ artillery report report.json
 
 ### 3. **k6** - Modern Load Testing
 
-#### Суулгах
+#### Суулгах (Optional - Separate Installation Required)
+
+**Windows:**
 ```bash
-# Windows (Chocolatey)
+# Option 1: Chocolatey (if installed)
 choco install k6
 
-# Эсвэл
+# Option 2: winget (Windows 10/11)
 winget install k6
+
+# Option 3: Download from https://k6.io/docs/getting-started/installation/
+# Extract and add to PATH
 ```
+
+**Note**: k6 нь npm package биш, тусдаа tool. Суулгаагүй бол Artillery ашиглах (local installation).
 
 #### Test Script: `load-test.js`
 ```javascript
@@ -191,7 +209,11 @@ export default function () {
 
 #### Ажиллуулах
 ```bash
+# If k6 is installed
 k6 run load-test.js
+
+# If not installed, use Artillery instead:
+npm run test:load
 ```
 
 #### HTML Report
